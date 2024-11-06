@@ -1,4 +1,9 @@
 import SearchForm from "@/components/SearchForm";
+import StartupCard, {
+  StartupTypeCard,
+} from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { STARTUPS_QUERY } from "@/sanity/lib/queries";
 import React from "react";
 
 export default async function Home({
@@ -8,6 +13,9 @@ export default async function Home({
 }) {
   const query = (await searchParams).query;
   const params = { search: query || null };
+
+  const posts = await client.fetch(STARTUPS_QUERY);
+
   return (
     <div>
       {" "}
@@ -23,6 +31,21 @@ export default async function Home({
         </p>
 
         <SearchForm query={query} />
+      </section>
+      <section className="section_container">
+        <p className="text-30-semibold">
+          {query ? `Search results for "${query}"` : "All Startups"}
+        </p>
+
+        <ul className="mt-7 card_grid">
+          {posts?.length > 0 ? (
+            posts.map((post) => (
+              <StartupCard key={post?._id} post={post} />
+            ))
+          ) : (
+            <p className="no-results">No startups found</p>
+          )}
+        </ul>
       </section>
     </div>
   );
