@@ -17,14 +17,14 @@ export default async function Home({
 
   const { data: posts } = await sanityFetch({
     query: STARTUPS_QUERY,
-    params: {},
+    params,
   });
 
-  const filterdPosts = query
-    ? posts.filter((post) =>
-        post.title?.toLowerCase().trim().includes(query.toLowerCase())
-      )
-    : posts;
+  // const filterdPosts = query
+  //   ? posts.filter((post) =>
+  //       post.title?.toLowerCase().trim().includes(query.toLowerCase())
+  //     )
+  //   : posts;
 
   return (
     <div>
@@ -49,7 +49,7 @@ export default async function Home({
 
         <ul className="mt-7 card_grid">
           {posts?.length > 0 ? (
-            filterdPosts.map((post) => (
+            posts.map((post: StartupTypeCard) => (
               <StartupCard key={post?._id} post={post} />
             ))
           ) : (
