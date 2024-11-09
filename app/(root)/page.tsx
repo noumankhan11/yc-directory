@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, {
   StartupTypeCard,
@@ -19,6 +20,9 @@ export default async function Home({
     query: STARTUPS_QUERY,
     params,
   });
+
+  const session = await auth();
+  console.log(session?.id);
 
   // const filterdPosts = query
   //   ? posts.filter((post) =>
